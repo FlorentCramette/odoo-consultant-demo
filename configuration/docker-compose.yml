@@ -34,13 +34,13 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       # Modules custom
-      - ./odoo_custom_modules:/mnt/extra-addons
+      - ../odoo_custom_modules:/mnt/extra-addons
       # Configuration Odoo
-      - ./configuration/odoo.conf:/etc/odoo/odoo.conf
+      - ./odoo.conf:/etc/odoo/odoo.conf
       # Données persistantes
       - odoo-web-data:/var/lib/odoo
       # Logs
-      - ./logs:/var/log/odoo
+      - ../logs:/var/log/odoo
     networks:
       - odoo-network
     restart: unless-stopped
