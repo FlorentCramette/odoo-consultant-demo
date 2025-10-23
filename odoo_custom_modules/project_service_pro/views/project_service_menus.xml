@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu principal dans Projet -->
+    <menuitem id="menu_project_milestone_root"
+              name="Jalons"
+              parent="project.menu_main_pm"
+              sequence="5"/>
+
+    <menuitem id="menu_project_milestone_all"
+              name="Tous les Jalons"
+              parent="menu_project_milestone_root"
+              action="action_project_milestone"
+              sequence="10"/>
+
+    <!-- Sous-menus par statut -->
+    <menuitem id="menu_project_milestone_in_progress"
+              name="En cours"
+              parent="menu_project_milestone_root"
+              action="action_project_milestone"
+              sequence="20"/>
+
+    <menuitem id="menu_project_milestone_to_invoice"
+              name="À facturer"
+              parent="menu_project_milestone_root"
+              action="action_project_milestone"
+              sequence="30"/>
+
+</odoo>

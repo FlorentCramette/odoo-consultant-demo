@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15
+    container_name: odoo_db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    networks:
+      - odoo-network
+    restart: unless-stopped
+
+  # Odoo Community 17.0
+  odoo:
+    image: odoo:17.0
+    container_name: odoo_app
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+      - "8072:8072"  # Pour le chat live (optionnel)
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+      - POSTGRES_DB=postgres
+    volumes:
+      # Modules custom
+      - ./odoo_custom_modules:/mnt/extra-addons
+      # Configuration Odoo
+      - ./configuration/odoo.conf:/etc/odoo/odoo.conf
+      # Données persistantes
+      - odoo-web-data:/var/lib/odoo
+      # Logs
+      - ./logs:/var/log/odoo
+    networks:
+      - odoo-network
+    restart: unless-stopped
+    command: -- --dev=reload
+
+  # PgAdmin (optionnel - pour administration BDD)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: odoo_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@odoo-demo.local
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - odoo-network
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  odoo-db-data:
+    driver: local
+  odoo-web-data:
+    driver: local
+  pgadmin-data:
+    driver: local
+
+networks:
+  odoo-network:
+    driver: bridge

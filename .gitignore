@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Odoo
+*.pyc
+*.pyo
+*.mo
+*~
+
+# Logs
+logs/
+*.log
+
+# Docker volumes
+volumes/
+
+# Database
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+*.env
+
+# Odoo filestore
+filestore/
+
+# Node modules (si JS custom)
+node_modules/
+
+# Backups
+*.backup
+*.dump
+*.sql
+
+# Temporary files
+tmp/
+temp/
+*.tmp
